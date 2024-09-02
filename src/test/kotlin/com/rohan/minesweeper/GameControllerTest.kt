@@ -1,102 +1,77 @@
 package com.rohan.minesweeper
 
-import com.rohan.minesweeper.GameUtils.parseCol
-import com.rohan.minesweeper.GameUtils.parseRow
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
-import org.mockito.MockitoAnnotations
-import org.mockito.kotlin.whenever
 
 class GameControllerTest {
 
-    private lateinit var minesweeper: Minesweeper
-    private lateinit var inputHandler: GameInputHandler
-    private lateinit var gameController: GameController
-    private lateinit var grid: Grid
-
-    @BeforeEach
-    fun setUp() {
-        MockitoAnnotations.openMocks(this)
-        minesweeper = mock(Minesweeper::class.java)
-        grid = mock(Grid::class.java)
-        inputHandler = mock(GameInputHandler::class.java)
-        gameController = GameController(minesweeper, inputHandler)
-    }
-
-//    @Test
-//    fun `should print grid and handle input when minesweeper is ongoing`() {
-//        whenever(minesweeper.isGameOver()).thenReturn(false)
-//        whenever(minesweeper.isGameWon()).thenReturn(false)
-//        whenever(inputHandler.readString(anyString())).thenReturn("1,1")
-//        whenever("1,1".parseRow(anyInt())).thenReturn(0)
-//        whenever("1,1".parseCol(anyInt())).thenReturn(0)
-//        whenever(minesweeper.isInBounds(eq(0), eq(0))).thenReturn(true) // Use `eq()` for specific values
-//        whenever(minesweeper.adjacentMines(eq(0), eq(0))).thenReturn(1)
-//        whenever(minesweeper.revealCell(eq(0), eq(0))).thenReturn(false)
-//        whenever(minesweeper.isGameWon()).thenReturn(false)
-//
-//        gameController.play()
-
-//        // Verify interactions
-//        verify(minesweeper).printGrid()
-//        verify(inputHandler).readString(Messages.get("select_squire"))
-//        verify(minesweeper).isInBounds(0, 0)
-//        verify(minesweeper).adjacentMines(0, 0)
-//        verify(minesweeper).revealCell(0, 0)
-//    }
-
+    private val game = mock(Minesweeper::class.java)
+    private val inputHandler = mock(GameInputHandler::class.java)
+    private val controller = GameController(game, inputHandler)
 
     @Test
-    fun `should end minesweeper when mine is hit`() {
-        // Arrange - setting up mocks
-        whenever(minesweeper.isGameOver()).thenReturn(false)
-        whenever(minesweeper.isGameWon()).thenReturn(false)
-        whenever(inputHandler.readString(anyString())).thenReturn("1,1")
-//        whenever("1,1".parseRow(anyInt())).thenReturn(0)
-//        whenever("1,1".parseCol(anyInt())).thenReturn(0)
-        whenever(minesweeper.isInBounds(eq(0), eq(0))).thenReturn(true)
-        whenever(minesweeper.adjacentMines(eq(0), eq(0))).thenReturn(1)
-        whenever(minesweeper.revealCell(eq(0), eq(0))).thenReturn(true)  // Hit a mine
-        whenever(minesweeper.isGameOver()).thenReturn(true)  // Terminate loop
+    fun `test processMove with valid input`() {
+        // Arrange
+        val row = 1
+        val col = 2
+        val adjacentMines = 3
+        `when`(game.isInBounds(row, col)).thenReturn(true)
+        `when`(game.adjacentMines(row, col)).thenReturn(adjacentMines)
+        `when`(game.revealCell(row, col)).thenReturn(false)
+        `when`(game.isGameWon()).thenReturn(false)
 
-        // Act - run the minesweeper
-        gameController.play()
+        // Act
+        val result = controller.processMove(row, col)
 
-        // Assert - Verify interactions and minesweeper end
-//        verify(minesweeper).printGrid()
-//        verify(inputHandler).readString(Messages.get("select_squire"))
-//        verify(minesweeper).isInBounds(0, 0)
-//        verify(minesweeper).adjacentMines(0, 0)
-//        verify(minesweeper).revealCell(0, 0)
-//        verify(minesweeper).printGrid(true) // Assuming true indicates grid update
-        assertTrue(minesweeper.isGameOver())
+        // Assert
+        assertEquals(GameController.GameResult.MoveMade(adjacentMines), result)
     }
 
     @Test
-    fun `should print minesweeper won message when minesweeper is won`() {
-        whenever(minesweeper.isGameOver()).thenReturn(false)
-        whenever(minesweeper.isGameWon()).thenReturn(false)
-        whenever(inputHandler.readString(anyString())).thenReturn("1,1")
-//        whenever("1,1".parseRow(anyInt())).thenReturn(0)
-//        whenever("1,1".parseCol(anyInt())).thenReturn(0)
-        whenever(minesweeper.isInBounds(eq(0), eq(0))).thenReturn(true)
-        whenever(minesweeper.adjacentMines(eq(0), eq(0))).thenReturn(1)
-        whenever(minesweeper.revealCell(eq(0), eq(0))).thenReturn(false)
-        whenever(minesweeper.isGameWon()).thenReturn(true)
+    fun `test processMove with invalid input`() {
+        // Arrange
+        val row = 1
+        val col = 2
+        `when`(game.isInBounds(row, col)).thenReturn(false)
 
-        gameController.play()
+        // Act
+        val result = controller.processMove(row, col)
 
-        // Verify interactions
-//        verify(minesweeper).printGrid(true) // Assuming true indicates grid update
-//        verify(inputHandler).readString(Messages.get("select_squire"))
-//        verify(minesweeper).isInBounds(0, 0)
-//        verify(minesweeper).adjacentMines(0, 0)
-//        verify(minesweeper).revealCell(0, 0)
-//        assertFalse(minesweeper.isGameOver())
-        assertTrue(minesweeper.isGameWon())
+        // Assert
+        assertEquals(GameController.GameResult.InvalidInput, result)
+    }
+
+    @Test
+    fun `test processMove with game won`() {
+        // Arrange
+        val row = 1
+        val col = 2
+        `when`(game.isInBounds(row, col)).thenReturn(true)
+        `when`(game.adjacentMines(row, col)).thenReturn(3)
+        `when`(game.revealCell(row, col)).thenReturn(false)
+        `when`(game.isGameWon()).thenReturn(true)
+
+        // Act
+        val result = controller.processMove(row, col)
+
+        // Assert
+        assertEquals(GameController.GameResult.GameWon, result)
+    }
+
+    @Test
+    fun `test processMove with mine hit`() {
+        // Arrange
+        val row = 1
+        val col = 2
+        `when`(game.isInBounds(row, col)).thenReturn(true)
+        `when`(game.adjacentMines(row, col)).thenReturn(3)
+        `when`(game.revealCell(row, col)).thenReturn(true)
+
+        // Act
+        val result = controller.processMove(row, col)
+
+        // Assert
+        assertEquals(GameController.GameResult.GameOver, result)
     }
 }

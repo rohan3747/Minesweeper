@@ -12,35 +12,53 @@ class GameController(private val game: Minesweeper, private val inputHandler: Ga
      * Main method to play the game.
      */
     fun play() {
-        val size = game.getSize()
-        var isUpdate: Boolean
-
         while (!game.isGameOver() && !game.isGameWon()) {
             game.printGrid()
-            val input = inputHandler.readString( Messages.get("select_squire"))
-            val row = input.parseRow(size) ?: continue
-            val col = input.parseCol(size) ?: continue
-            isUpdate = true
+            val input = inputHandler.readString(Messages.get("select_squire"))
+            val row = input.parseRow(game.getSize()) ?: continue
+            val col = input.parseCol(game.getSize()) ?: continue
 
-            if (!game.isInBounds(row, col)) {
-                println(Messages.get("input_invalid_number"))
-                continue
-            }
+            when (val result = processMove(row, col)) {
+                GameResult.GameOver -> {
+                    println(Messages.get("game_over"))
+                    return
+                }
+                GameResult.GameWon -> {
+                    println(Messages.get("game_won"))
+                    return
+                }
+                is GameResult.MoveMade -> {
+                    println("This square contains ${result.adjacentMines} adjacent mines.")
+                }
 
-            val adjacentMines = game.adjacentMines(row, col)
-
-            val hitMine = game.revealCell(row, col)
-            if (hitMine) {
-                println(Messages.get("game_over"))
-                return
-            } else if (game.isGameWon()) {
-                println("This square contains $adjacentMines adjacent mines.")
-                game.printGrid(isGridUpdate = isUpdate)
-                println(Messages.get("game_won"))
-                return
-            } else{
-                println("This square contains $adjacentMines adjacent mines.")
+                GameResult.InvalidInput -> TODO()
             }
         }
+    }
+
+    fun processMove(row: Int, col: Int): GameResult {
+        if (!game.isInBounds(row, col)) {
+            println(Messages.get("input_invalid_number"))
+            return GameResult.InvalidInput
+        }
+
+        val adjacentMines = game.adjacentMines(row, col)
+        val hitMine = game.revealCell(row, col)
+
+        if (hitMine) {
+            return GameResult.GameOver
+        } else if (game.isGameWon()) {
+            game.printGrid(isGridUpdate = true)
+            return GameResult.GameWon
+        } else {
+            return GameResult.MoveMade(adjacentMines)
+        }
+    }
+
+    sealed class GameResult {
+        data object GameOver : GameResult()
+        data object GameWon : GameResult()
+        data object InvalidInput : GameResult()
+        data class MoveMade(val adjacentMines: Int) : GameResult()
     }
 }
