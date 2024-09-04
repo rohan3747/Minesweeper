@@ -7,7 +7,7 @@ import java.util.logging.Logger
  * Class representing the Minesweeper game.
  * Manages the game state and logic.
  */
-class Minesweeper(private val size: Int, private val numMines: Int) {
+class Minesweeper(private val size: Int, val numMines: Int) {
     private val grid = Grid(size, numMines)
     private var gameOver = false
     private val logger = Logger.getLogger(Minesweeper::class.java.name)

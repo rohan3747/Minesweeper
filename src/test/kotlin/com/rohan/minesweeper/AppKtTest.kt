@@ -1,6 +1,6 @@
 package com.rohan.minesweeper
 
-import com.rohan.minesweeper.controller.MinesweeperGameRunner
+import com.rohan.minesweeper.controller.GameRunner
 import com.rohan.minesweeper.utils.GameInputHandler
 import com.rohan.minesweeper.utils.Messages
 import io.mockk.mockk
@@ -12,21 +12,21 @@ class AppKtTest {
 
     private lateinit var inputHandler: GameInputHandler
     private lateinit var messages: Messages
-    private lateinit var gameRunner: MinesweeperGameRunner
+    private lateinit var gameRunner: GameRunner
 
     @BeforeEach
     fun setUp() {
         inputHandler = mock()
         messages = mock()
-        gameRunner = MinesweeperGameRunner(inputHandler, messages)
+        gameRunner = GameRunner(inputHandler, messages)
     }
 
     @Test
-    fun `test main function runs MinesweeperGameRunner`() {
+    fun `test main function runs GameRunner`() {
         // Arrange
         val mockInputHandler = mockk<GameInputHandler>(relaxed = true)
         val messages = mockk<Messages>(relaxed = true)
-        val mockGameRunner = mockk<MinesweeperGameRunner>(relaxed = true)
+        val mockGameRunner = mockk<GameRunner>(relaxed = true)
 
         // Act
 //        main() // Call the main function

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+import java.io.InputStream
 import java.io.PrintStream
 import kotlin.test.assertEquals
 
@@ -46,6 +47,42 @@ class GameInputHandlerTest {
     }
 
     @Test
+    fun `test readGridSize with valid input within range`() {
+        // Arrange: Set input to a value within the valid range
+        setInput("5\n")
+
+        // Act: Call the method with minValue and maxValue parameters
+        val result = gameInputHandler.readGridSize("Enter grid size:", minValue = 3, maxValue = 10)
+
+        // Assert: Check that the result matches the input value
+        assertEquals(5, result)
+    }
+
+    @Test
+    fun `test readGridSize with input outside the valid range`() {
+        // Arrange: Set input to values outside the valid range
+        setInput("15\n5\n")
+
+        // Act: Call the method with minValue and maxValue parameters
+        val result = gameInputHandler.readGridSize("Enter grid size:", minValue = 3, maxValue = 10)
+
+        // Assert: Check that the result is the valid input within the range
+        assertEquals(5, result)
+    }
+
+    @Test
+    fun `test readGridSize with invalid and then valid input`() {
+        // Arrange: Set input to invalid value followed by a valid value
+        setInput("invalid\n12\n8\n")
+
+        // Act: Call the method with minValue and maxValue parameters
+        val result = gameInputHandler.readGridSize("Enter grid size:", minValue = 3, maxValue = 10)
+
+        // Assert: Check that the result is the valid input within the range
+        assertEquals(8, result)
+    }
+
+    @Test
     fun `test readMineCount with valid input`() {
         setInput("10\n")
         val result = gameInputHandler.readMineCount("Enter mine count:", 10)
@@ -65,5 +102,61 @@ class GameInputHandlerTest {
         val result = gameInputHandler.readString("Enter string:")
         assertEquals("test string", result)
     }
-}
 
+    @Test
+    fun testReadKeySuccessful() {
+        val input: InputStream = ByteArrayInputStream("a".toByteArray())
+        val handler = GameInputHandler(input)
+
+        val result = handler.readKey()
+        assertEquals('a', result, "Expected 'a' but got $result")
+    }
+
+    /*
+    @Test
+    fun testReadKeyEmptyStream() {
+        val input: InputStream = ByteArrayInputStream("".toByteArray())
+        val handler = GameInputHandler(input)
+
+        val result = handler.readKey()
+        assertEquals(' ', result, "Expected space character but got $result")
+    }
+     */
+
+    @Test
+    fun testReadKeyException() {
+        val input: InputStream = object : InputStream() {
+            override fun read(): Int {
+                throw RuntimeException("Test Exception")
+            }
+        }
+        val handler = GameInputHandler(input)
+
+        val result = handler.readKey()
+        assertEquals(' ', result, "Expected space character but got $result")
+    }
+
+    @Test
+    fun `test readGridSize with input below the minimum value`() {
+        // Arrange: Set input to a value below the minimum value
+        setInput("1\n5\n")
+
+        // Act: Call the method with minValue and maxValue parameters
+        val result = gameInputHandler.readGridSize("Enter grid size:", minValue = 3, maxValue = 10)
+
+        // Assert: Check that the result is the valid input within the range
+        assertEquals(5, result)
+    }
+
+    @Test
+    fun `test readGridSize with input above the maximum value`() {
+        // Arrange: Set input to a value above the maximum value
+        setInput("15\n5\n")
+
+        // Act: Call the method with minValue and maxValue parameters
+        val result = gameInputHandler.readGridSize("Enter grid size:", minValue = 3, maxValue = 10)
+
+        // Assert: Check that the result is the valid input within the range
+        assertEquals(5, result)
+    }
+}
