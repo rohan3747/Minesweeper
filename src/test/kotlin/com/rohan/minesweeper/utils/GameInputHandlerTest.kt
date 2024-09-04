@@ -1,6 +1,8 @@
 package com.rohan.minesweeper.utils
 
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayInputStream
@@ -158,5 +160,28 @@ class GameInputHandlerTest {
 
         // Assert: Check that the result is the valid input within the range
         assertEquals(5, result)
+    }
+
+    private fun setSystemIn(input: String) {
+        val inStream: InputStream = ByteArrayInputStream(input.toByteArray())
+        System.setIn(inStream)
+    }
+
+    @Test
+    fun testPromptForContinuationWithAnyKey() {
+        // Simulate pressing a key (not Esc)
+        setSystemIn("a\n")
+
+        val handler = GameInputHandler()
+        assertTrue(handler.promptForContinuation(), "Expected continuation to return true for non-Esc key")
+    }
+
+    @Test
+    fun testPromptForContinuationWithEscKey() {
+        // Simulate pressing Esc key
+        setSystemIn("\u001B\n")
+
+        val handler = GameInputHandler()
+        assertFalse(handler.promptForContinuation(), "Expected continuation to return false for Esc key")
     }
 }

@@ -1,7 +1,6 @@
 package com.rohan.minesweeper.core
 
 import com.rohan.minesweeper.utils.Messages
-import java.util.logging.Logger
 
 /**
  * Class representing the Minesweeper game.
@@ -10,7 +9,6 @@ import java.util.logging.Logger
 class Minesweeper(private val size: Int, val numMines: Int) {
     private val grid = Grid(size, numMines)
     private var gameOver = false
-    private val logger = Logger.getLogger(Minesweeper::class.java.name)
 
     /**
      * Gets the size of the grid.
@@ -35,7 +33,6 @@ class Minesweeper(private val size: Int, val numMines: Int) {
         val hitMine = grid.revealCell(row, col)
         if (hitMine) {
             gameOver = true
-//            logger.info("Mine hit at ($row, $col). Game over.")
         }
         return hitMine
     }

@@ -7,7 +7,7 @@ import kotlin.random.Random
  * Class representing the grid of the Minesweeper game.
  * Handles the grid operations, including cell management and mine placement.
  */
-class Grid(private val size: Int, private val numMines: Int) {
+class Grid(val size: Int, val numMines: Int) {
     private val grid = Array(size) { Array(size) { Cell() } }
 
     init {

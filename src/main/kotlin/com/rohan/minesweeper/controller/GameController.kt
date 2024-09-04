@@ -51,21 +51,17 @@ class GameController(private val game: Minesweeper, private val inputHandler: Ga
      * @return The result of the move, which can be GameOver, GameWon, MoveMade, or InvalidInput.
      */
     fun processMove(row: Int, col: Int): GameResult {
-        if (!game.isInBounds(row, col)) {
-            println(Messages.get("input_invalid_number"))
-            return GameResult.InvalidInput
-        }
-
-        val adjacentMines = game.adjacentMines(row, col)
-        val hitMine = game.revealCell(row, col)
-
-        if (hitMine) {
-            return GameResult.GameOver
-        } else if (game.isGameWon()) {
-            game.printGrid(isGridUpdate = true)
-            return GameResult.GameWon
-        } else {
-            return GameResult.MoveMade(adjacentMines)
+        return when {
+            !game.isInBounds(row, col) -> {
+                println(Messages.get("input_invalid_number"))
+                GameResult.InvalidInput
+            }
+            game.revealCell(row, col) -> GameResult.GameOver
+            game.isGameWon() -> {
+                game.printGrid(isGridUpdate = true)
+                GameResult.GameWon
+            }
+            else -> GameResult.MoveMade(game.adjacentMines(row, col))
         }
     }
 }
