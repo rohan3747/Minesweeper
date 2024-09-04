@@ -1,5 +1,6 @@
-package com.rohan.minesweeper
+package com.rohan.minesweeper.core
 
+import com.rohan.minesweeper.model.Cell
 import kotlin.random.Random
 
 /**

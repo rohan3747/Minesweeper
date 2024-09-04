@@ -41,7 +41,7 @@ This Minesweeper game is implemented in Kotlin and follows Object-Oriented Progr
       * gradle run
     * Alternatively, compile and run manually with the Kotlin compiler:
       * kotlinc src -d out
-      * java -cp out com.rohang.MainKt
+      * java -cp out com.rohan.minesweeper.AppKt
 
 ## Environment ##
  * Operating Systems:

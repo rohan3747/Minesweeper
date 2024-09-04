@@ -1,5 +1,8 @@
-package com.rohan.minesweeper
+package com.rohan.minesweeper.controller
 
+import com.rohan.minesweeper.core.Minesweeper
+import com.rohan.minesweeper.model.GameResult
+import com.rohan.minesweeper.utils.GameInputHandler
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
@@ -25,7 +28,7 @@ class GameControllerTest {
         val result = controller.processMove(row, col)
 
         // Assert
-        assertEquals(GameController.GameResult.MoveMade(adjacentMines), result)
+        assertEquals(GameResult.MoveMade(adjacentMines), result)
     }
 
     @Test
@@ -39,7 +42,7 @@ class GameControllerTest {
         val result = controller.processMove(row, col)
 
         // Assert
-        assertEquals(GameController.GameResult.InvalidInput, result)
+        assertEquals(GameResult.InvalidInput, result)
     }
 
     @Test
@@ -56,7 +59,7 @@ class GameControllerTest {
         val result = controller.processMove(row, col)
 
         // Assert
-        assertEquals(GameController.GameResult.GameWon, result)
+        assertEquals(GameResult.GameWon, result)
     }
 
     @Test
@@ -72,6 +75,6 @@ class GameControllerTest {
         val result = controller.processMove(row, col)
 
         // Assert
-        assertEquals(GameController.GameResult.GameOver, result)
+        assertEquals(GameResult.GameOver, result)
     }
 }

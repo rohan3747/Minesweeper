@@ -1,11 +1,14 @@
 package com.rohan.minesweeper
 
+import com.rohan.minesweeper.controller.MinesweeperGameRunner
+import com.rohan.minesweeper.utils.GameInputHandler
+import com.rohan.minesweeper.utils.Messages
 import io.mockk.mockk
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.*
+import org.mockito.kotlin.mock
 
-class MinesweeperGameRunnerTest {
+class AppKtTest {
 
     private lateinit var inputHandler: GameInputHandler
     private lateinit var messages: Messages
@@ -32,3 +35,4 @@ class MinesweeperGameRunnerTest {
 //        verify { mockGameRunner.run() }
     }
 }
+

@@ -1,10 +1,17 @@
-package com.rohan.minesweeper
+package com.rohan.minesweeper.controller
 
-import com.rohan.minesweeper.GameUtils.parseCol
-import com.rohan.minesweeper.GameUtils.parseRow
+import com.rohan.minesweeper.utils.GameInputHandler
+import com.rohan.minesweeper.utils.GameUtils.parseCol
+import com.rohan.minesweeper.utils.GameUtils.parseRow
+import com.rohan.minesweeper.utils.Messages
+import com.rohan.minesweeper.core.Minesweeper
+import com.rohan.minesweeper.model.GameResult
 
 /**
  * Class to control the flow of the game.
+ *
+ * @param game The Minesweeper game instance that this controller will manage.
+ * @param inputHandler The input handler to manage user interactions.
  */
 class GameController(private val game: Minesweeper, private val inputHandler: GameInputHandler) {
 
@@ -36,6 +43,13 @@ class GameController(private val game: Minesweeper, private val inputHandler: Ga
         }
     }
 
+    /**
+     * Processes the player's move based on the given row and column.
+     *
+     * @param row The row index of the cell to reveal.
+     * @param col The column index of the cell to reveal.
+     * @return The result of the move, which can be GameOver, GameWon, MoveMade, or InvalidInput.
+     */
     fun processMove(row: Int, col: Int): GameResult {
         if (!game.isInBounds(row, col)) {
             println(Messages.get("input_invalid_number"))
@@ -53,12 +67,5 @@ class GameController(private val game: Minesweeper, private val inputHandler: Ga
         } else {
             return GameResult.MoveMade(adjacentMines)
         }
-    }
-
-    sealed class GameResult {
-        data object GameOver : GameResult()
-        data object GameWon : GameResult()
-        data object InvalidInput : GameResult()
-        data class MoveMade(val adjacentMines: Int) : GameResult()
     }
 }

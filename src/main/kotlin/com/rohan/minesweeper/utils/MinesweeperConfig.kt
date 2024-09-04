@@ -1,4 +1,4 @@
-package com.rohan.minesweeper
+package com.rohan.minesweeper.utils
 
 object MinesweeperConfig {
     val minGridSize: Int = System.getProperty("minGridSize")?.toIntOrNull() ?: 2

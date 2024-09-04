@@ -1,7 +1,7 @@
-package com.rohan.minesweeper
+package com.rohan.minesweeper.utils
 
-import com.rohan.minesweeper.GameUtils.parseCol
-import com.rohan.minesweeper.GameUtils.parseRow
+import com.rohan.minesweeper.utils.GameUtils.parseCol
+import com.rohan.minesweeper.utils.GameUtils.parseRow
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

@@ -1,4 +1,4 @@
-package com.rohan.minesweeper
+package com.rohan.minesweeper.utils
 
 import java.util.logging.Logger
 

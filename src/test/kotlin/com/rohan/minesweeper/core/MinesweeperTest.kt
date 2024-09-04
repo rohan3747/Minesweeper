@@ -1,6 +1,5 @@
-import com.rohan.minesweeper.Cell
-import com.rohan.minesweeper.Grid
-import com.rohan.minesweeper.Minesweeper
+package com.rohan.minesweeper.core
+
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito.mock

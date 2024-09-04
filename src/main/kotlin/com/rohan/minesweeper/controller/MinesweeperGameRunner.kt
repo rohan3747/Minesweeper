@@ -1,13 +1,8 @@
-package com.rohan.minesweeper
+package com.rohan.minesweeper.controller
 
-/**
- * Entry point for the Minesweeper game.
- */
-fun main() {
-    val inputHandler = GameInputHandler()
-    val gameRunner = MinesweeperGameRunner(inputHandler)
-    gameRunner.run()
-}
+import com.rohan.minesweeper.utils.GameInputHandler
+import com.rohan.minesweeper.utils.Messages
+import com.rohan.minesweeper.core.Minesweeper
 
 class MinesweeperGameRunner(
     private val inputHandler: GameInputHandler,

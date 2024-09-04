@@ -1,5 +1,6 @@
-package com.rohan.minesweeper
+package com.rohan.minesweeper.core
 
+import com.rohan.minesweeper.utils.Messages
 import java.util.logging.Logger
 
 /**

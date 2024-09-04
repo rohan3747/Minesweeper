@@ -1,4 +1,4 @@
-package com.rohan.minesweeper
+package com.rohan.minesweeper.model
 
 // Data class representing a single cell on the Minesweeper grid
 data class Cell(

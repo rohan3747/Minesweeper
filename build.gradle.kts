@@ -7,7 +7,7 @@ group = "com.rohan.minesweeper"
 version = "1.0-SNAPSHOT"
 
 tasks.register<JavaExec>("run") {
-    mainClass.set("com.rohan.minesweeper.MainKt")
+    mainClass.set("com.rohan.minesweeper.AppKt")
     classpath = sourceSets["main"].runtimeClasspath
     standardInput = System.`in`  // Ensure standard input is connected
 }

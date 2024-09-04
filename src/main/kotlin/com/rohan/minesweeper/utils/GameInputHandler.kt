@@ -1,7 +1,7 @@
-package com.rohan.minesweeper
+package com.rohan.minesweeper.utils
 
-import com.rohan.minesweeper.MinesweeperConfig.minGridSize
-import com.rohan.minesweeper.MinesweeperConfig.minMineCount
+import com.rohan.minesweeper.utils.MinesweeperConfig.minGridSize
+import com.rohan.minesweeper.utils.MinesweeperConfig.minMineCount
 
 class GameInputHandler {
 

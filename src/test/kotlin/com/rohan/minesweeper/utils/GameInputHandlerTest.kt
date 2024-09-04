@@ -1,4 +1,4 @@
-package com.rohan.minesweeper
+package com.rohan.minesweeper.utils
 
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach

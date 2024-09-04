@@ -1,4 +1,4 @@
-package com.rohan.minesweeper
+package com.rohan.minesweeper.model
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
