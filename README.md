@@ -20,7 +20,7 @@ This Minesweeper game is implemented in Kotlin and follows Object-Oriented Progr
 
 * Prerequisites
   * Java Development Kit (JDK) (version 17 or later)
-  * Gradle (version 7 or later)
+  * Gradle (version 8 or later)
   * Kotlin (optional for local development)
 
 ## Installation ##
