@@ -19,9 +19,9 @@ This Minesweeper game is implemented in Kotlin and follows Object-Oriented Progr
 ### Compilation and Execution ###
 
 * Prerequisites
-  * Kotlin Compiler: Ensure Kotlin is installed on your system. Download it from Kotlin's official website.
-  * Java Development Kit (JDK): Requires JDK 8 or higher. Ensure JDK is installed and configured.
-
+  * Java Development Kit (JDK) (version 17 or later)
+  * Gradle (version 7 or later)
+  * Kotlin (optional for local development)
 
 ## Installation ##
 
@@ -33,22 +33,23 @@ This Minesweeper game is implemented in Kotlin and follows Object-Oriented Progr
     *   Build the project using:
         gradle build
 
-
 ## Running the Application ##
   * Compile and Run:
     * Navigate to the project directory.
     * Execute the application using: 
       * ./gradlew clean build
       * ./gradlew run
-    * Alternatively, compile and run manually with the Kotlin compiler:
-      * kotlinc src -d out
-      * java -cp out com.rohan.minesweeper.AppKt
-
-## Environment ##
- * Operating Systems:
-    * Windows: Ensure compatible versions of JDK and Kotlin are installed.
-    * Linux: Use package managers like apt or yum for installation.
-    * macOS: Use Homebrew for installation.
+      
+  * Alternatively, build and run a JAR file using Gradle with Kotlin DSL
+    * Clone the Repository:
+      * git clone https://github.com/rohan37/Minesweeper.git
+      * cd project-name
+    * Build the JAR: To build the JAR file, run the following Gradle command:
+      * ./gradlew build
+    * JAR File Location: After the build completes, the JAR file will be located at:
+      * build/libs/Minesweeper-1.0.0.jar
+    * Run the JAR
+      * java -jar build/libs/Minesweeper-1.0.0.jar
 
 ### Troubleshooting ###
  * Compilation Errors: Check for correct JDK and Kotlin versions, and look for typos or syntax errors.

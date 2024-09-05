@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.9.23"
     id("jacoco")
+    java
 }
 
 group = "com.rohan.minesweeper"
@@ -63,6 +64,18 @@ tasks.jacocoTestReport {
         xml.required.set(true)
         html.required.set(true)
     }
+}
+
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "com.rohan.minesweeper.AppKt" // Replace with your main class
+    }
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+}
+
+tasks.jar {
+    archiveBaseName.set("Minesweeper")
+    archiveVersion.set("1.0.0")
 }
 
 kotlin {
