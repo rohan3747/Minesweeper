@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Grid.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Minesweeper</a> &gt; <a href="index.source.html" class="el_package">com.rohan.minesweeper.core</a> &gt; <span class="el_source">Grid.kt</span></div><h1>Grid.kt</h1><pre class="source lang-java linenums">package com.rohan.minesweeper.core
+
+import com.rohan.minesweeper.model.Cell
+import kotlin.random.Random
+
+/**
+ * Class representing the grid of the Minesweeper game.
+ * Handles the grid operations, including cell management and mine placement.
+ */
+<span class="pc" id="L10">class Grid(val size: Int, val numMines: Int) {</span>
+<span class="fc bfc" id="L11" title="All 4 branches covered.">    private val grid = Array(size) { Array(size) { Cell() } }</span>
+
+<span class="fc" id="L13">    init {</span>
+<span class="fc" id="L14">        placeMines()</span>
+<span class="fc" id="L15">        calculateAdjacentMines()</span>
+<span class="fc" id="L16">    }</span>
+
+    /**
+     * Places mines randomly on the grid.
+     */
+    private fun placeMines() {
+<span class="fc" id="L22">        var minesPlaced = 0</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        while (minesPlaced &lt; numMines) {</span>
+<span class="fc" id="L24">            val row = Random.nextInt(size)</span>
+<span class="fc" id="L25">            val col = Random.nextInt(size)</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">            if (!grid[row][col].isMine) {</span>
+<span class="fc" id="L27">                grid[row][col].isMine = true</span>
+<span class="fc" id="L28">                minesPlaced++</span>
+            }
+        }
+<span class="fc" id="L31">    }</span>
+
+    /**
+     * Calculates the number of adjacent mines for each cell.
+     */
+    private fun calculateAdjacentMines() {
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        for (row in 0 until size) {</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">            for (col in 0 until size) {</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">                if (!grid[row][col].isMine) {</span>
+<span class="fc" id="L40">                    grid[row][col].adjacentMines = countAdjacentMines(row, col)</span>
+                }
+            }
+        }
+<span class="fc" id="L44">    }</span>
+
+    /**
+     * Counts the number of mines adjacent to the specified cell.
+     */
+    private fun countAdjacentMines(row: Int, col: Int): Int {
+<span class="fc" id="L50">        var count = 0</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        for (i in -1..1) {</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">            for (j in -1..1) {</span>
+<span class="fc bfc" id="L53" title="All 4 branches covered.">                if (isInBounds(row + i, col + j) &amp;&amp; grid[row + i][col + j].isMine) {</span>
+<span class="fc" id="L54">                    count++</span>
+                }
+            }
+        }
+<span class="fc" id="L58">        return count</span>
+    }
+
+    /**
+     * Returns the cell at the specified row and column.
+     */
+    fun getCell(row: Int, col: Int): Cell {
+<span class="fc" id="L65">        return grid[row][col]</span>
+    }
+
+    /**
+     * Checks if the given coordinates are within the grid boundaries.
+     */
+    fun isInBounds(row: Int, col: Int): Boolean {
+<span class="fc bfc" id="L72" title="All 12 branches covered.">        return row in 0 until size &amp;&amp; col in 0 until size</span>
+    }
+
+    /**
+     * Reveals the cell at the specified row and column.
+     * @return true if a mine is revealed, false otherwise.
+     */
+    fun revealCell(row: Int, col: Int): Boolean {
+<span class="pc bpc" id="L80" title="2 of 4 branches missed.">        if (!isInBounds(row, col) || grid[row][col].isRevealed) return false</span>
+
+<span class="fc" id="L82">        grid[row][col].isRevealed = true</span>
+
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        if (grid[row][col].isMine) {</span>
+<span class="fc" id="L85">            return true</span>
+        }
+
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        if (grid[row][col].adjacentMines == 0) {</span>
+<span class="fc" id="L89">            revealAdjacentCells(row, col)</span>
+        }
+
+<span class="fc" id="L92">        return false</span>
+    }
+
+    /**
+     * Reveals the cells adjacent to the specified cell if they have no adjacent mines.
+     */
+    private fun revealAdjacentCells(row: Int, col: Int) {
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        for (i in -1..1) {</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">            for (j in -1..1) {</span>
+<span class="fc" id="L101">                val newRow = row + i</span>
+<span class="fc" id="L102">                val newCol = col + j</span>
+<span class="fc bfc" id="L103" title="All 4 branches covered.">                if (isInBounds(newRow, newCol) &amp;&amp; !grid[newRow][newCol].isRevealed) {</span>
+<span class="fc" id="L104">                    revealCell(newRow, newCol)</span>
+                }
+            }
+        }
+<span class="fc" id="L108">    }</span>
+
+    /**
+     * Returns the grid array.
+     */
+    fun getGrid(): Array&lt;Array&lt;Cell&gt;&gt; {
+<span class="fc" id="L114">        return grid</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

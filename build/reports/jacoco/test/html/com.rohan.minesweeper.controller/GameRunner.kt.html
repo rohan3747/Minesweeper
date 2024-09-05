@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameRunner.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Minesweeper</a> &gt; <a href="index.source.html" class="el_package">com.rohan.minesweeper.controller</a> &gt; <span class="el_source">GameRunner.kt</span></div><h1>GameRunner.kt</h1><pre class="source lang-java linenums">package com.rohan.minesweeper.controller
+
+import com.rohan.minesweeper.utils.GameInputHandler
+import com.rohan.minesweeper.utils.Messages
+import com.rohan.minesweeper.core.Minesweeper
+import kotlin.system.exitProcess
+
+/**
+ * Implementation of the GameRunner interface.
+ *
+ * @property inputHandler Handles user input and interactions.
+ * @property messages Provides localized messages for the game.
+ */
+<span class="pc" id="L14">class GameRunner(</span>
+<span class="fc" id="L15">    private val inputHandler: GameInputHandler,</span>
+<span class="pc" id="L16">    private val messages: Messages = Messages</span>
+) {
+
+    fun run() {
+<span class="nc" id="L20">        while (true) {</span>
+<span class="nc" id="L21">            displayWelcomeMessage()</span>
+
+<span class="nc" id="L23">            val size = inputHandler.readGridSize(messages.get(&quot;grid_size_prompt&quot;))</span>
+<span class="nc" id="L24">            val numMines = getNumberOfMines(size)</span>
+
+<span class="nc" id="L26">            val game = createGame(size, numMines)</span>
+<span class="nc" id="L27">            playGame(game)</span>
+
+<span class="nc bnc" id="L29" title="All 2 branches missed.">            if (!promptForReplay()) {</span>
+<span class="nc" id="L30">                exitProgram()</span>
+            }
+        }
+    }
+
+    /**
+     * Displays the welcome message to the user.
+     */
+    fun displayWelcomeMessage() {
+<span class="fc" id="L39">        println(messages.get(&quot;welcome_message&quot;))</span>
+<span class="fc" id="L40">    }</span>
+
+    /**
+     * Creates a new Minesweeper game with the specified size and number of mines.
+     *
+     * @param size The size of the grid.
+     * @param numMines The number of mines.
+     * @return The created Minesweeper game instance.
+     */
+    fun createGame(size: Int, numMines: Int): Minesweeper {
+<span class="fc" id="L50">        return Minesweeper(size, numMines)</span>
+    }
+
+    /**
+     * Determines the number of mines, ensuring it does not exceed the maximum allowed.
+     *
+     * @param size The size of the grid.
+     * @return The number of mines.
+     */
+    fun getNumberOfMines(size: Int): Int {
+<span class="fc" id="L60">        return inputHandler.readMineCount(messages.get(&quot;mine_count_prompt&quot;), size)</span>
+<span class="fc" id="L61">            .coerceAtMost((size * size * 0.35).toInt())</span>
+    }
+
+    /**
+     * Starts and manages the game using the provided Minesweeper instance.
+     *
+     * @param game The Minesweeper game instance to be played.
+     */
+    fun playGame(game: Minesweeper) {
+<span class="fc" id="L70">        val controller = GameController(game, inputHandler)</span>
+<span class="fc" id="L71">        controller.play()</span>
+<span class="fc" id="L72">    }</span>
+
+    /**
+     * Prompts the user to decide whether to play again or exit.
+     *
+     * @return True if the user wants to play again, false otherwise.
+     */
+    fun promptForReplay(): Boolean {
+<span class="fc" id="L80">        return inputHandler.promptForContinuation()</span>
+    }
+
+    /**
+     * Exits the program with a message.
+     */
+    private fun exitProgram() {
+<span class="nc" id="L87">        println(messages.get(&quot;exit_message&quot;))</span>
+<span class="nc" id="L88">        exitProcess(0)</span>
+    }
+<span class="nc" id="L90">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameController.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Minesweeper</a> &gt; <a href="index.source.html" class="el_package">com.rohan.minesweeper.controller</a> &gt; <span class="el_source">GameController.kt</span></div><h1>GameController.kt</h1><pre class="source lang-java linenums">package com.rohan.minesweeper.controller
+
+import com.rohan.minesweeper.utils.GameInputHandler
+import com.rohan.minesweeper.utils.GameUtils.parseCol
+import com.rohan.minesweeper.utils.GameUtils.parseRow
+import com.rohan.minesweeper.utils.Messages
+import com.rohan.minesweeper.core.Minesweeper
+import com.rohan.minesweeper.model.GameResult
+
+/**
+ * Class to control the flow of the game.
+ *
+ * @param game The Minesweeper game instance that this controller will manage.
+ * @param inputHandler The input handler to manage user interactions.
+ */
+<span class="fc" id="L16">class GameController(private val game: Minesweeper, private val inputHandler: GameInputHandler) {</span>
+
+    /**
+     * Main method to play the game.
+     */
+    fun play() {
+<span class="pc bpc" id="L22" title="1 of 4 branches missed.">        while (!game.isGameOver() &amp;&amp; !game.isGameWon()) {</span>
+<span class="nc" id="L23">            game.printGrid()</span>
+<span class="nc" id="L24">            val input = inputHandler.readString(Messages.get(&quot;select_squire&quot;))</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">            val row = input.parseRow(game.getSize()) ?: continue</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">            val col = input.parseCol(game.getSize()) ?: continue</span>
+
+<span class="nc" id="L28">            when (val result = processMove(row, col)) {</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">                GameResult.GameOver -&gt; {</span>
+<span class="nc" id="L30">                    println(Messages.get(&quot;game_over&quot;))</span>
+<span class="nc" id="L31">                    return</span>
+                }
+<span class="nc bnc" id="L33" title="All 2 branches missed.">                GameResult.GameWon -&gt; {</span>
+<span class="nc" id="L34">                    println(Messages.get(&quot;game_won&quot;))</span>
+<span class="nc" id="L35">                    return</span>
+                }
+<span class="nc bnc" id="L37" title="All 2 branches missed.">                is GameResult.MoveMade -&gt; {</span>
+<span class="nc" id="L38">                    println(&quot;This square contains ${result.adjacentMines} adjacent mines.&quot;)</span>
+                }
+
+<span class="nc bnc" id="L41" title="All 2 branches missed.">                GameResult.InvalidInput -&gt; TODO()</span>
+            }
+        }
+<span class="fc" id="L44">    }</span>
+
+    /**
+     * Processes the player's move based on the given row and column.
+     *
+     * @param row The row index of the cell to reveal.
+     * @param col The column index of the cell to reveal.
+     * @return The result of the move, which can be GameOver, GameWon, MoveMade, or InvalidInput.
+     */
+    fun processMove(row: Int, col: Int): GameResult {
+<span class="fc" id="L54">        return when {</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">            !game.isInBounds(row, col) -&gt; {</span>
+<span class="fc" id="L56">                println(Messages.get(&quot;input_invalid_number&quot;))</span>
+<span class="fc" id="L57">                GameResult.InvalidInput</span>
+            }
+<span class="fc bfc" id="L59" title="All 2 branches covered.">            game.revealCell(row, col) -&gt; GameResult.GameOver</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            game.isGameWon() -&gt; {</span>
+<span class="fc" id="L61">                game.printGrid(isGridUpdate = true)</span>
+<span class="fc" id="L62">                GameResult.GameWon</span>
+            }
+<span class="fc" id="L64">            else -&gt; GameResult.MoveMade(game.adjacentMines(row, col))</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

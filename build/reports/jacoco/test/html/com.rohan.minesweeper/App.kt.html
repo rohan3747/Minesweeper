@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>App.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Minesweeper</a> &gt; <a href="index.source.html" class="el_package">com.rohan.minesweeper</a> &gt; <span class="el_source">App.kt</span></div><h1>App.kt</h1><pre class="source lang-java linenums">package com.rohan.minesweeper
+
+import com.rohan.minesweeper.controller.GameRunner
+import com.rohan.minesweeper.utils.GameInputHandler
+
+/**
+ * Entry point for the Minesweeper game application.
+ *
+ * This function initializes the game input handler and game runner, then starts the game.
+ *
+ * - Creates an instance of [GameInputHandler] to handle user inputs.
+ * - Creates an instance of [GameRunner] with the input handler to manage game execution.
+ * - Calls [GameRunner.run] to start and manage the game loop.
+ */
+fun main() {
+    // Create an instance of GameInputHandler to handle user inputs.
+<span class="nc" id="L17">    val inputHandler = GameInputHandler()</span>
+
+    // Create an instance of GameRunner, passing the input handler to it.
+    // The GameRunner will use this handler to get user inputs and manage the game.
+<span class="nc" id="L21">    val gameRunner = GameRunner(inputHandler)</span>
+    // Start the game by calling the run method on GameRunner.
+    // This will handle the game loop and interact with the user through the input handler.
+<span class="nc" id="L24">    gameRunner.run()</span>
+<span class="nc" id="L25">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

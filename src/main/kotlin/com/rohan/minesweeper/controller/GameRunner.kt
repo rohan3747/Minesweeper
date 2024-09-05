@@ -66,7 +66,7 @@ class GameRunner(
      *
      * @param game The Minesweeper game instance to be played.
      */
-    private fun playGame(game: Minesweeper) {
+    fun playGame(game: Minesweeper) {
         val controller = GameController(game, inputHandler)
         controller.play()
     }

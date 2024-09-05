@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Minesweeper.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Minesweeper</a> &gt; <a href="index.source.html" class="el_package">com.rohan.minesweeper.core</a> &gt; <span class="el_source">Minesweeper.kt</span></div><h1>Minesweeper.kt</h1><pre class="source lang-java linenums">package com.rohan.minesweeper.core
+
+import com.rohan.minesweeper.utils.Messages
+
+/**
+ * Class representing the Minesweeper game.
+ * Manages the game state and logic.
+ */
+<span class="fc" id="L9">class Minesweeper(private val size: Int, val numMines: Int) {</span>
+<span class="fc" id="L10">    private val grid = Grid(size, numMines)</span>
+    private var gameOver = false
+
+    /**
+     * Gets the size of the grid.
+     */
+    fun getSize(): Int {
+<span class="fc" id="L17">        return size</span>
+    }
+
+    /**
+     * Checks if the given coordinates are within the grid boundaries.
+     */
+    fun isInBounds(row: Int, col: Int): Boolean {
+<span class="fc" id="L24">        return grid.isInBounds(row, col)</span>
+    }
+
+    /**
+     * Reveals the cell at the specified row and column.
+     * @return True if a mine was hit, otherwise false.
+     */
+    fun revealCell(row: Int, col: Int): Boolean {
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">        if (gameOver) return false</span>
+<span class="fc" id="L33">        val hitMine = grid.revealCell(row, col)</span>
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        if (hitMine) {</span>
+<span class="nc" id="L35">            gameOver = true</span>
+        }
+<span class="fc" id="L37">        return hitMine</span>
+    }
+
+    fun adjacentMines(row: Int, col: Int): Int {
+<span class="nc" id="L41">        val cell = grid.getCell(row, col)</span>
+<span class="nc" id="L42">        return cell.adjacentMines</span>
+    }
+
+    /**
+     * Checks if the player has won the game.
+     */
+    fun isGameWon(): Boolean {
+<span class="fc bfc" id="L49" title="All 4 branches covered.">        return grid.getGrid().flatten().all { it.isRevealed || it.isMine }</span>
+    }
+
+    /**
+     * Prints the current state of the grid.
+     * @param revealMines If true, mines will be revealed.
+     */
+<span class="fc" id="L56">    fun printGrid(revealMines: Boolean = false, isGridUpdate: Boolean = false) {</span>
+
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (isGridUpdate){</span>
+<span class="fc" id="L59">            println(&quot;Here is your updated minefield:&quot;)</span>
+        }else{
+<span class="fc" id="L61">            println(Messages.get(&quot;mine_field&quot;))</span>
+        }
+<span class="fc" id="L63">        println(&quot;  ${(1..size).joinToString(&quot; &quot;)}&quot;)</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        for (row in 0 until size) {</span>
+<span class="fc" id="L65">            print(&quot;${('A' + row)} &quot;)</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">            for (col in 0 until size) {</span>
+<span class="fc" id="L67">                val cell = grid.getCell(row, col)</span>
+<span class="fc" id="L68">                when {</span>
+<span class="pc bpc" id="L69" title="3 of 4 branches missed.">                    cell.isRevealed &amp;&amp; cell.isMine -&gt; print(&quot;* &quot;) // Display * if the mine is revealed</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">                    cell.isRevealed -&gt; print(&quot;${cell.adjacentMines} &quot;)</span>
+<span class="pc bpc" id="L71" title="3 of 4 branches missed.">                    revealMines &amp;&amp; cell.isMine -&gt; print(&quot;* &quot;)</span>
+<span class="fc" id="L72">                    else -&gt; print(&quot;_ &quot;)</span>
+                }
+            }
+<span class="fc" id="L75">            println()</span>
+        }
+<span class="fc" id="L77">    }</span>
+
+    /**
+     * Checks if the game is over.
+     */
+    fun isGameOver(): Boolean {
+<span class="fc" id="L83">        return gameOver</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
