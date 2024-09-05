@@ -114,17 +114,6 @@ class GameInputHandlerTest {
         assertEquals('a', result, "Expected 'a' but got $result")
     }
 
-    /*
-    @Test
-    fun testReadKeyEmptyStream() {
-        val input: InputStream = ByteArrayInputStream("".toByteArray())
-        val handler = GameInputHandler(input)
-
-        val result = handler.readKey()
-        assertEquals(' ', result, "Expected space character but got $result")
-    }
-     */
-
     @Test
     fun testReadKeyException() {
         val input: InputStream = object : InputStream() {

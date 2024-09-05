@@ -72,7 +72,6 @@ class GameRunnerTest {
     @Test
     fun `test playGame should call GameController play`() {
         val game = mockk<Minesweeper>()
-        val controller = mockk<GameController>(relaxed = true)
 
         // Mocking constructor for GameController
         mockkConstructor(GameController::class)

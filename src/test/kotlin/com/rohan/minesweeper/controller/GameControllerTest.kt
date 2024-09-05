@@ -36,10 +36,7 @@ class GameControllerTest {
         `when`(game.revealCell(row, col)).thenReturn(false)
         `when`(game.isGameWon()).thenReturn(false)
 
-        // Act
         val result = controller.processMove(row, col)
-
-        // Assert
         assertEquals(GameResult.MoveMade(adjacentMines), result)
     }
 
@@ -51,10 +48,8 @@ class GameControllerTest {
         val col = 2
         `when`(game.isInBounds(row, col)).thenReturn(false)
 
-        // Act
         val result = controller.processMove(row, col)
 
-        // Assert
         assertEquals(GameResult.InvalidInput, result)
     }
 
@@ -68,10 +63,8 @@ class GameControllerTest {
         `when`(game.revealCell(row, col)).thenReturn(false)
         `when`(game.isGameWon()).thenReturn(true)
 
-        // Act
         val result = controller.processMove(row, col)
 
-        // Assert
         assertEquals(GameResult.GameWon, result)
     }
 
@@ -84,10 +77,8 @@ class GameControllerTest {
         `when`(game.adjacentMines(row, col)).thenReturn(3)
         `when`(game.revealCell(row, col)).thenReturn(true)
 
-        // Act
         val result = controller.processMove(row, col)
 
-        // Assert
         assertEquals(GameResult.GameOver, result)
     }
 

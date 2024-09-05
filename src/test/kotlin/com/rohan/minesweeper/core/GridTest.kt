@@ -19,34 +19,6 @@ class GridTest {
         assertEquals(5, cellsWithMines, "The grid should contain exactly 5 mines.")
     }
 
-    /*
-    @Test
-    fun `test adjacent mines calculation`() {
-        // Manually setting up a small 3x3 grid for testing adjacent mine calculation
-        val testGrid = Grid(size = 3, numMines = 1)
-        testGrid.getGrid()[1][1].isMine = true
-        testGrid.getGrid()[1][1].adjacentMines = 0 // Setting this as mine manually
-
-        // Recalculate adjacent mines after manually placing one mine
-        testGrid.getGrid().forEach { row ->
-            row.forEach { cell ->
-                cell.adjacentMines = 0 // Reset adjacent mines for fresh calculation
-            }
-        }
-        testGrid.getGrid().forEachIndexed { row, rowCells ->
-            rowCells.forEachIndexed { col, _ ->
-                if (!testGrid.getGrid()[row][col].isMine) {
-                    testGrid.getGrid()[row][col].adjacentMines = testGrid.getCell(row, col).adjacentMines
-                }
-            }
-        }
-
-        assertEquals(1, testGrid.getCell(0, 0).adjacentMines, "Cell (0, 0) should have 1 adjacent mine.")
-        assertEquals(1, testGrid.getCell(2, 2).adjacentMines, "Cell (2, 2) should have 1 adjacent mine.")
-    }
-
-     */
-
     @Test
     fun `test reveal cell with mine`() {
         grid.getGrid()[0][0].isMine = true // Manually place a mine at (0, 0)

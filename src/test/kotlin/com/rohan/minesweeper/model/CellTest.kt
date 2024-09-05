@@ -27,10 +27,7 @@ class CellTest {
 
     @Test
     fun `test MoveMade initialization`() {
-        // Arrange
         val expectedAdjacentMines = 3
-
-        // Act
         val moveMade = GameResult.MoveMade(expectedAdjacentMines)
 
         // Assert
@@ -53,11 +50,9 @@ class CellTest {
 
     @Test
     fun `test MoveMade toString`() {
-        // Arrange
         val moveMade = GameResult.MoveMade(3)
         val expectedToString = "MoveMade(adjacentMines=3)"
 
-        // Act
         val actualToString = moveMade.toString()
 
         // Assert

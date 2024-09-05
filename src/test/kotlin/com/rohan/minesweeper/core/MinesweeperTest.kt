@@ -1,6 +1,5 @@
 package com.rohan.minesweeper.core
 
-
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito.mock
@@ -57,13 +56,9 @@ class MinesweeperTest {
 
     @Test
     fun `test isGameOver should return false initially`() {
-        // Arrange
         val minesweeper = Minesweeper(size = 10, numMines = 5)
 
-        // Act
         val isGameOver = minesweeper.isGameOver()
-
-        // Assert
         assertFalse(isGameOver, "Expected isGameOver to return false initially")
     }
 
@@ -115,7 +110,6 @@ class MinesweeperTest {
 
     // Utility function to capture the output of println for testing
     private fun capturePrintOutput(block: () -> Unit): String {
-        val originalOut = System.out
         val outputStream = ByteArrayOutputStream()
         System.setOut(PrintStream(outputStream))
         block()
